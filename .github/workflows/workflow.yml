@@ -25,5 +25,5 @@ jobs:
 
       - name: Print changed files in "posts"
         run: |
-          echo "Changed files in posts: ${{ toJson(steps.filter.outputs) }}"
-          echo "${{ steps.filter.outputs.posts_paths }}" | tr ',' '\n'
+          # echo "Changed files in posts: ${{ toJson(steps.filter.outputs) }}"
+          echo "Changed files in posts: ${{ steps.filter.outputs.posts_files }}"
