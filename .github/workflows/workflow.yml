@@ -25,11 +25,4 @@ jobs:
 
       - name: Print changed files in "posts"
         run: |
-           echo "Changed files in posts: ${{ toJson(steps.filter.outputs) }}"
-
-      - name: Print each changed file in "posts"
-        run: |
-          echo "Changed files in posts:"
-          for file in ${{ steps.filter.outputs.posts_files }}; do
-            echo "$file"
-          done
+           echo "Changed files in posts: ${{ steps.filter.outputs.posts_files }}"
