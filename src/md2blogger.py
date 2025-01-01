@@ -1,50 +1,17 @@
 import argparse
-from pyspark_app.feature_generators.factory import FeatureGeneratorFactory
+import json
 
-from pyspark_app.feature_generators.gfa import *
-from pyspark_app.feature_generators.ncc import *
-from pyspark_app.feature_generators.ncc.rsa import *
-from pyspark_app.feature_generators.search import *
+def filter_md_files(files):
+    return [file for file in files if file.endswith('.md')]
 
+def main():
+    parser = argparse.ArgumentParser(description="Filter and process .md files.")
+    parser.add_argument('--files', type=str, required=True, help="JSON array of changed files")
+    args = parser.parse_args()
+
+    changed_files = json.loads(args.files)
+    md_files = filter_md_files(changed_files)
+    print(json.dumps(md_files, indent=2))
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--job_name", required=True)
-    parser.add_argument("--ymd", required=True)
-    parser.add_argument("--hms", required=True)
-    parser.add_argument("--env", required=True)
-    parser.add_argument("--version", required=False, default="")
-    parser.add_argument(
-        "--optional_params",
-        required=False,
-        type=str,
-        help="""추가적으로 입력하고 싶은 params를 json 형태로 입력합니다. Ex) '{"key1":"value1","key2":"value2"}'""",
-        default="{}",
-    )
-
-    args = parser.parse_args()
-    feature_generator = FeatureGeneratorFactory.create_feature_generator(args.job_name, args)
-    feature_generator.run()
-
-
-
-import argparse
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--job_name", required=True)
-    parser.add_argument("--ymd", required=True)
-    parser.add_argument("--hms", required=True)
-    parser.add_argument("--env", required=True)
-    parser.add_argument("--version", required=False, default="")
-    parser.add_argument(
-        "--optional_params",
-        required=False,
-        type=str,
-        help="""추가적으로 입력하고 싶은 params를 json 형태로 입력합니다. Ex) '{"key1":"value1","key2":"value2"}'""",
-        default="{}",
-    )
-
-    args = parser.parse_args()
-    feature_generator = FeatureGeneratorFactory.create_feature_generator(args.job_name, args)
-    feature_generator.run()
+    main()

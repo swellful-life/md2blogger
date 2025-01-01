@@ -25,4 +25,4 @@ jobs:
 
       - name: Print changed files in "posts"
         run: |
-           echo "Changed files in posts: ${{ steps.filter.outputs.posts_files }}"
+          python3 filter_md_files.py --files '${{ steps.filter.outputs.posts_files }}'
