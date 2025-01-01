@@ -25,6 +25,7 @@ def main():
 
     md_files = filter_and_transform_files(changed_files)
 
+    print(md_files)
     print(json.dumps(md_files, ensure_ascii=False, indent=2))
 
 
