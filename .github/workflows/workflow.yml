@@ -25,7 +25,9 @@ jobs:
               - 'docs/**'
 
       - name: Print changed files in "posts"
-        run: echo "Changed files in posts: ${{ steps.filter.outputs.posts_paths }}"
+        run: |
+          echo "Changed files in posts: ${{ steps.filter.outputs.posts_paths }}"
 
       - name: Print changed files in "docs"
-        run: echo "Changed files in docs: ${{ steps.filter.outputs.docs_paths }}"
+        run: |
+          echo "Changed files in docs: ${{ steps.filter.outputs.docs_paths }}"
