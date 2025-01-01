@@ -18,10 +18,11 @@ jobs:
         id: filter
         uses: dorny/paths-filter@v3
         with:
+          base: 20250101-md2blogger-initial-implementation
           list-files: json
           filters: |
             posts:
-              - 'sample/posts/**'
+              - 'sample/posts/**/*.md'
 
       - name: Print changed files in "posts"
         run: |
