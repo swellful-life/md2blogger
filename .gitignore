@@ -1,0 +1,15 @@
+# IDE
+.idea
+.vscode
+.obsidian
+
+# Environment
+.env
+.github
+
+# Local
+work
+venv
+
+# Python
+**/*.pyc
