@@ -26,6 +26,7 @@ jobs:
 
       - name: Print changed files in "posts"
         run: |
+          env
           REPO_URL="${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}"
           echo $REPO_URL
           python3 src/md2blogger.py --files '${{ steps.filter.outputs.posts_files }}'
