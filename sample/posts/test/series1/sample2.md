@@ -1,7 +1,7 @@
 ---
 title: sample posting
-description: 이것은 샘플 포스팅입니다.
-slug: sample-posting
+permalink: sample-posting
+published: 2025-01-11T14:10:00
 tags:
   - aussie
   - english
@@ -42,7 +42,5 @@ print("hello, world!")
 잉 뭐지
 
 아래는 이미지 삽입입니다.
-![hello](assets/샘플_포스팅/file-20250101154032427.png)
-![](posts/test/series1/assets/샘플_포스팅/file-20250101154817178.png)
 
-
+![](posts/test/series1/assets/sample2/file-20250111134948198.png)
