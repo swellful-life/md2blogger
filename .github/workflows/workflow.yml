@@ -14,6 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup Python from .python-version
+        uses: actions/setup-python@v4
+        with:
+          python-version-file: .python-version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Check file changes
         id: filter
         uses: dorny/paths-filter@v3
@@ -24,9 +34,15 @@ jobs:
             posts:
               - 'sample/posts/**/*.md'
 
-      - name: Print changed files in "posts"
+      - name: Upload changed Markdown files to Blogger
         run: |
           # env
           REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY
           echo $REPO_URL
-          python3 src/md2blogger.py --files '${{ steps.filter.outputs.posts_files }}'
+          python3 src/md2blogger.py \
+            --files '${{ steps.filter.outputs.posts_files }}' \
+            --github_url $REPO_URL \
+            --blogger_client_id ${{ secrets.BLOGGER_CLIENT_ID }} \
+            --blogger_client_secret ${{ secrets.BLOGGER_CLIENT_SECRET }} \
+            --blogger_refresh_token ${{ secrets.BLOGGER_REFRESH_TOKEN }} \
+            --blogger_blog_id ${{ secrets.BLOGGER_BLOG_ID }}
