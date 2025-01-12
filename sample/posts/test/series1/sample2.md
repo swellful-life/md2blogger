@@ -5,6 +5,7 @@ published: 2025-01-11T14:10:00
 tags:
   - aussie
   - english
+skip_upload: false
 ---
 
 안녕하세요, 이것은 샘플 포스팅입니다.
@@ -46,4 +47,4 @@ for i in range(10):
 
 아래는 이미지 삽입입니다.
 
-![](posts/test/series1/assets/sample2/file-20250111134948198.png)
+![](sample/posts/test/series1/assets/sample2/file-20250111134948198.png)
