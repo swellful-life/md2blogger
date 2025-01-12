@@ -4,7 +4,7 @@ import json
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert markdown files to Blogger format")
-    parser.add_argument('--files', type=str, required=True, help="JSON array of changed files")
+    parser.add_argument("--files", type=str, required=True, help="JSON array of changed files")
     args = parser.parse_args()
 
     try:
