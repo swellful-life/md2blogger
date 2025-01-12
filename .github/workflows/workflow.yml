@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 20250101-md2blogger-initial-implementation
 
 jobs:
   path-filter:
