@@ -1,7 +1,8 @@
 import argparse
 import json
-from src.utils.markdown_to_html import MdToHtml
-from src.utils.blogger_uploader import BloggerUploader
+
+from utils.markdown_to_html import MdToHtml
+from utils.blogger_uploader import BloggerUploader
 
 
 if __name__ == "__main__":
