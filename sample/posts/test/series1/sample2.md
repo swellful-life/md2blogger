@@ -50,3 +50,4 @@ for i in range(10):
 ![](sample/posts/test/series1/assets/sample2/file-20250111134948198.png)
 
 똥복순: CPT를 써봐!
+똥복순: 이거를 봐봐!!
