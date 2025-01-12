@@ -11,8 +11,10 @@ from zoneinfo import ZoneInfo
 class MetaData:
     title: str
     permalink: str
-    published: str
+    published: datetime
     tags: List[str] = field(default_factory=list)
+    skip_upload: bool = False
+
 
 class MdToHtml:
     PERMALINK_PATTERN = r"^[a-z\-]+$"
@@ -56,13 +58,13 @@ class MdToHtml:
     def _parse_datetime(date_utc: Optional[str]) -> str:
         try:
             if not date_utc:
-                return datetime.now(ZoneInfo("Asia/Seoul")).isoformat(timespec='seconds')
+                return datetime.now(ZoneInfo("Asia/Seoul")).isoformat(timespec="seconds")
 
             date_utc_obj = datetime.fromisoformat(date_utc)
             kst_datetime = date_utc_obj.replace(tzinfo=ZoneInfo("UTC")).astimezone(ZoneInfo("Asia/Seoul"))
-            return kst_datetime.isoformat(timespec='seconds')
+            return kst_datetime.isoformat(timespec="seconds")
         except (ValueError, TypeError):
-            return datetime.now(ZoneInfo("Asia/Seoul")).isoformat(timespec='seconds')
+            return datetime.now(ZoneInfo("Asia/Seoul")).isoformat(timespec="seconds")
 
     def _validate_permalink(self, permalink: Optional[str]) -> Optional[str]:
         if not permalink:
@@ -78,31 +80,23 @@ class MdToHtml:
             permalink=self._validate_permalink(self._properties.get("permalink")),
             published=self._parse_datetime(self._properties.get("published")),
             tags=list(self._properties.get("tags", [])),
+            skip_upload=self._properties.get("skip_upload", False),
         )
 
     def _convert_md_to_html(self):
         from markdown_it import MarkdownIt
-        from mdit_py_plugins.footnote import footnote_plugin
         from mdit_py_plugins.tasklists import tasklists_plugin
 
         self._metadata = self.extract_metadata()
 
-        md_renderer = (
-            MarkdownIt("commonmark")
-            .use(tasklists_plugin)
-            .enable("table")
-        )
+        md_renderer = MarkdownIt("commonmark", {"breaks": True}).use(tasklists_plugin).enable("table")
 
-        html = md_renderer.render(self._body)
+        raw_html = md_renderer.render(self._body)
 
-        html_with_repo_url = re.sub(
+        self._html = re.sub(
             r'(<img\s+[^>]*src=")(?!http)([^"]+)(")',  # Match <img src="...">
             rf'\1{self._repo_url}/blob/main/\2?raw=true\3 width="100%"',  # Add width="100%"
-            html,
+            raw_html,
         )
-        print(f"\nmetadata: {self._metadata}")
-        print(f"body: \n{html_with_repo_url}")
 
-        # TODO: Convert markdown in self._body to HTML.
-        # TODO: If the title is not set in metadata, derive it from the file name.
-        # TODO: Return or store the resulting HTML content.
+        return self._metadata, self._html
