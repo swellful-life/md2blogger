@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, mock_open
-
 from src.utils.markdown_to_html import MdToHtml
+
 
 sample_text1 = """
 ---
@@ -45,4 +45,3 @@ def test_md_to_html2(mock_file):
 def test_md_to_html3():
     md = MdToHtml("../sample/posts/test/series1/sample2.md", "https://github.com/swellful-life/md2blogger")
     md._convert_md_to_html()
-
