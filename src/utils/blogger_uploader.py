@@ -1,5 +1,5 @@
 import requests
-from src.utils.markdown_to_html import MetaData
+from utils.markdown_to_html import MetaData
 
 
 class BloggerUploader:
