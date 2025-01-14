@@ -30,7 +30,7 @@ jobs:
         id: filter
         uses: dorny/paths-filter@v3
         with:
-          base: 20250101-md2blogger-initial-implementation
+          base: main
           list-files: json
           filters: |
             posts:
