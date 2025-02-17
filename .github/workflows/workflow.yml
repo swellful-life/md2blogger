@@ -1,6 +1,7 @@
 name: Path Filter Example
 
 on:
+  workflow_call: # workflow_dispatch 이벤트를 받아들임
   push:
     branches:
       - main
@@ -34,7 +35,7 @@ jobs:
           list-files: json
           filters: |
             posts:
-              - 'sample/posts/**/*.md'
+              - 'posts/**/*.md'
           ignore-deletions: true # 삭제된 파일 제외
 
       - name: Upload changed Markdown files to Blogger
