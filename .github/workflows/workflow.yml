@@ -35,6 +35,7 @@ jobs:
           filters: |
             posts:
               - 'sample/posts/**/*.md'
+          ignore-deletions: true # 삭제된 파일 제외
 
       - name: Upload changed Markdown files to Blogger
         run: |
