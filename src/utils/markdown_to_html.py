@@ -93,10 +93,17 @@ class MdToHtml:
 
         raw_html = md_renderer.render(self._body)
 
+        html_w_table_wrapper = re.sub(
+            r'(<table(?:.|\n)*?</table>)',
+            r'<div class="table-wrapper">\1</div>',
+            raw_html,
+            flags=re.DOTALL
+        )
+
         self._html = re.sub(
             r'(<img\s+[^>]*src=")(?!http)([^"]+)(")',  # Match <img src="...">
             rf'\1{self._repo_url}/blob/main/\2?raw=true\3 width="100%"',  # Add width="100%"
-            raw_html,
+            html_w_table_wrapper,
         )
 
         return self._metadata, self._html
