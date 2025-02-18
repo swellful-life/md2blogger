@@ -2,6 +2,22 @@ name: Path Filter Example
 
 on:
   workflow_call: # workflow_dispatch 이벤트를 받아들임
+    inputs:
+      github_token:
+        required: true
+        type: string
+      blogger_client_id:
+        required: true
+        type: string
+      blogger_client_secret:
+        required: true
+        type: string
+      blogger_refresh_token:
+        required: true
+        type: string
+      blogger_blog_id:
+        required: true
+        type: string
   push:
     branches:
       - main
