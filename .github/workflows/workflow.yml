@@ -15,9 +15,6 @@ on:
       blogger_blog_id:
         required: true
         type: string
-  push:
-    branches:
-      - main
 
 jobs:
   path-filter:
