@@ -24,18 +24,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout md2blogger repository
-        uses: actions/checkout@v3
-        with:
-          repository: swellful-life/md2blogger
-          ref: main
-          path: md2blogger
 
       - name: Checkout blog post repository
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
           ref: main
+
+      - name: Checkout md2blogger repository
+        uses: actions/checkout@v3
+        with:
+          repository: swellful-life/md2blogger
+          ref: main
+          path: md2blogger
 
       - name: Print inputs values
         run: |
