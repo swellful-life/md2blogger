@@ -21,19 +21,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Checkout blog post repository
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ github.repository }}
-          ref: main
-
       - name: Checkout md2blogger repository
         uses: actions/checkout@v3
         with:
           repository: swellful-life/md2blogger
           ref: main
           path: md2blogger
+
+      - name: Checkout blog post repository
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          ref: main
+          # 별도의 경로 지정하여 서로 겹치지 않도록 할 수 있습니다.
+          path: blogpost
 
       - name: Setup Python from .python-version
         uses: actions/setup-python@v4
@@ -56,19 +57,18 @@ jobs:
           list-files: json
           filters: |
             posts:
-              - 'posts/**/*.md'
+              - 'blogspot/posts/**/*.md'
           ignore-deletions: true
 
       - name: Upload changed Markdown files to Blogger
         if: steps.filter.outputs.posts != '[]'
         run: |
-          # env
           REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY
-          echo $REPO_URL
+          echo "Repository URL: $REPO_URL"
           python3 src/md2blogger.py \
             --files '${{ steps.filter.outputs.posts }}' \
             --github_url $REPO_URL \
-            --blogger_client_id ${{ secrets.blogger_client_id }} \
-            --blogger_client_secret ${{ secrets.blogger_client_secret }} \
-            --blogger_refresh_token ${{ secrets.blogger_refresh_token }} \
-            --blogger_blog_id ${{ secrets.blogger_blog_id }}
+            --blogger_client_id ${{ inputs.blogger_client_id }} \
+            --blogger_client_secret ${{ inputs.blogger_client_secret }} \
+            --blogger_refresh_token ${{ inputs.blogger_refresh_token }} \
+            --blogger_blog_id ${{ inputs.blogger_blog_id }}
