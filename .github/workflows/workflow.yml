@@ -22,18 +22,18 @@ jobs:
 
     steps:
 
-      - name: Checkout md2blogger repository
-        uses: actions/checkout@v3
-        with:
-          repository: swellful-life/md2blogger
-          ref: main
-
       - name: Checkout blog post repository
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
           ref: main
-          path: blogspot
+
+      - name: Checkout md2blogger repository
+        uses: actions/checkout@v3
+        with:
+          repository: swellful-life/md2blogger
+          ref: main
+          path: md2blogger
 
       - name: show inputs
         run: |
@@ -48,7 +48,7 @@ jobs:
       - name: Setup Python from .python-version
         uses: actions/setup-python@v4
         with:
-          python-version-file: .python-version
+          python-version-file: md2blogger/.python-version
 
       - name: Install dependencies
         run: |
@@ -66,7 +66,7 @@ jobs:
           list-files: json
           filters: |
             posts:
-              - 'blogspot/posts/**/*.md'
+              - 'posts/**/*.md'
           ignore-deletions: true
 
       - name: Upload changed Markdown files to Blogger
