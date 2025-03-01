@@ -63,7 +63,7 @@ jobs:
           list-files: json
           filters: |
             posts:
-              - 'blogspot/posts/**/*.md'
+              - 'posts/**/*.md'
           ignore-deletions: true
 
       - name: Upload changed Markdown files to Blogger
