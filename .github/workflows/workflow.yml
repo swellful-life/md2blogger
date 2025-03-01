@@ -75,7 +75,7 @@ jobs:
           REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY
           echo "Repository URL: $REPO_URL"
           python3 md2blogger/src/md2blogger.py \
-            --files '${{ steps.filter.outputs.posts }}' \
+            --files '${{ steps.filter.outputs.posts_files }}' \
             --github_url $REPO_URL \
             --blogger_client_id ${{ inputs.blogger_client_id }} \
             --blogger_client_secret ${{ inputs.blogger_client_secret }} \
