@@ -21,19 +21,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout blog post repository
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ github.repository }}
-          ref: main
-          path: blogspot
 
       - name: Checkout md2blogger repository
         uses: actions/checkout@v3
         with:
           repository: swellful-life/md2blogger
           ref: main
-          path: md2blogger
+
+      - name: Checkout blog post repository
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          ref: main
+          path: blogspot
 
       - name: show inputs
         run: |
@@ -66,7 +66,7 @@ jobs:
           list-files: json
           filters: |
             posts:
-              - 'posts/**/*.md'
+              - 'blogspot/posts/**/*.md'
           ignore-deletions: true
 
       - name: Upload changed Markdown files to Blogger
