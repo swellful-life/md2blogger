@@ -2,19 +2,15 @@ name: Path Filter Example
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       blogger_client_id:
         required: true
-        type: string
       blogger_client_secret:
         required: true
-        type: string
       blogger_refresh_token:
         required: true
-        type: string
       blogger_blog_id:
         required: true
-        type: string
 
 jobs:
   path-filter:
@@ -35,12 +31,12 @@ jobs:
           ref: main
           path: md2blogger
 
-      - name: show inputs
+      - name: show secrets
         run: |
-          echo "blogger_client_id: ${{ inputs.blogger_client_id }}"
-          echo "blogger_client_secret: ${{ inputs.blogger_client_secret }}"
-          echo "blogger_refresh_token: ${{ inputs.blogger_refresh_token }}"
-          echo "blogger_blog_id: ${{ inputs.blogger_blog_id }}"
+          echo "blogger_client_id: ${{ secrets.blogger_client_id }}"
+          echo "blogger_client_secret: ${{ secrets.blogger_client_secret }}"
+          echo "blogger_refresh_token: ${{ secrets.blogger_refresh_token }}"
+          echo "blogger_blog_id: ${{ secrets.blogger_blog_id }}"
       - name: show dirs
         run: |
           tree -L 3
@@ -77,7 +73,7 @@ jobs:
           python3 md2blogger/src/md2blogger.py \
             --files '${{ steps.filter.outputs.posts_files }}' \
             --github_url $REPO_URL \
-            --blogger_client_id ${{ inputs.blogger_client_id }} \
-            --blogger_client_secret ${{ inputs.blogger_client_secret }} \
-            --blogger_refresh_token ${{ inputs.blogger_refresh_token }} \
-            --blogger_blog_id ${{ inputs.blogger_blog_id }}
+            --blogger_client_id ${{ secrets.blogger_client_id }} \
+            --blogger_client_secret ${{ secrets.blogger_client_secret }} \
+            --blogger_refresh_token ${{ secrets.blogger_refresh_token }} \
+            --blogger_blog_id ${{ secrets.blogger_blog_id }}
