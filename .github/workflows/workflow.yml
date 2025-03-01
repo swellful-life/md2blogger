@@ -41,6 +41,9 @@ jobs:
           echo "blogger_client_secret: ${{ inputs.blogger_client_secret }}"
           echo "blogger_refresh_token: ${{ inputs.blogger_refresh_token }}"
           echo "blogger_blog_id: ${{ inputs.blogger_blog_id }}"
+      - name: show dirs
+        run: |
+          tree -L 3
 
       - name: Setup Python from .python-version
         uses: actions/setup-python@v4
