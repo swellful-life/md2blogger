@@ -1,11 +1,8 @@
 name: Path Filter Example
 
 on:
-  workflow_call: # workflow_dispatch 이벤트를 받아들임
+  workflow_call:
     inputs:
-      github_token:
-        required: true
-        type: string
       blogger_client_id:
         required: true
         type: string
@@ -27,21 +24,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout md2blogger repository
         uses: actions/checkout@v3
+        with:
+          repository: swellful-life/md2blogger
+          ref: main
+          path: md2blogger
+
+      - name: Checkout blog post repository
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          ref: main
 
       - name: Setup Python from .python-version
         uses: actions/setup-python@v4
         with:
-          python-version-file: .python-version
+          python-version-file: md2blogger/.python-version
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r md2blogger/requirements.txt
 
       - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PYTHONPATH:$GITHUB_WORKSPACE" >> $GITHUB_ENV
+        run: echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
 
       - name: Check file changes
         id: filter
@@ -52,17 +59,18 @@ jobs:
           filters: |
             posts:
               - 'posts/**/*.md'
-          ignore-deletions: true # 삭제된 파일 제외
+          ignore-deletions: true
 
       - name: Upload changed Markdown files to Blogger
+        if: steps.filter.outputs.posts != '[]'
         run: |
           # env
           REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY
           echo $REPO_URL
           python3 src/md2blogger.py \
-            --files '${{ steps.filter.outputs.posts_files }}' \
+            --files '${{ steps.filter.outputs.posts }}' \
             --github_url $REPO_URL \
-            --blogger_client_id ${{ secrets.BLOGGER_CLIENT_ID }} \
-            --blogger_client_secret ${{ secrets.BLOGGER_CLIENT_SECRET }} \
-            --blogger_refresh_token ${{ secrets.BLOGGER_REFRESH_TOKEN }} \
-            --blogger_blog_id ${{ secrets.BLOGGER_BLOG_ID }}
+            --blogger_client_id ${{ inputs.blogger_client_id }} \
+            --blogger_client_secret ${{ inputs.blogger_client_secret }} \
+            --blogger_refresh_token ${{ inputs.blogger_refresh_token }} \
+            --blogger_blog_id ${{ inputs.blogger_blog_id }}
