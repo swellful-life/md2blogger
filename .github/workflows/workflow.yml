@@ -35,18 +35,6 @@ jobs:
           ref: main
           path: md2blogger
 
-      - name: Print inputs values
-        run: |
-          echo "blogger_client_id: ${{ inputs.blogger_client_id }}"
-          echo "blogger_client_secret: ${{ inputs.blogger_client_secret }}"
-          echo "blogger_refresh_token: ${{ inputs.blogger_refresh_token }}"
-          echo "blogger_blog_id: ${{ inputs.blogger_blog_id }}"
-      - name: check dirs
-        run: |
-          ls -la
-          ls -la md2blogger
-          ls -la md2blogger/src
-
       - name: Setup Python from .python-version
         uses: actions/setup-python@v4
         with:
@@ -80,7 +68,7 @@ jobs:
           python3 src/md2blogger.py \
             --files '${{ steps.filter.outputs.posts }}' \
             --github_url $REPO_URL \
-            --blogger_client_id ${{ inputs.blogger_client_id }} \
-            --blogger_client_secret ${{ inputs.blogger_client_secret }} \
-            --blogger_refresh_token ${{ inputs.blogger_refresh_token }} \
-            --blogger_blog_id ${{ inputs.blogger_blog_id }}
+            --blogger_client_id ${{ secrets.blogger_client_id }} \
+            --blogger_client_secret ${{ secrets.blogger_client_secret }} \
+            --blogger_refresh_token ${{ secrets.blogger_refresh_token }} \
+            --blogger_blog_id ${{ secrets.blogger_blog_id }}
