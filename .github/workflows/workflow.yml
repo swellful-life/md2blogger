@@ -26,6 +26,7 @@ jobs:
         with:
           repository: ${{ github.repository }}
           ref: main
+          path: blogspot
 
       - name: Checkout md2blogger repository
         uses: actions/checkout@v3
@@ -52,7 +53,7 @@ jobs:
           pip install -r md2blogger/requirements.txt
 
       - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+        run: echo "PYTHONPATH=$GITHUB_WORKSPACE/blogspot" >> $GITHUB_ENV
 
       - name: Check file changes
         id: filter
@@ -70,7 +71,7 @@ jobs:
         run: |
           REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY
           echo "Repository URL: $REPO_URL"
-          python3 src/md2blogger.py \
+          python3 md2blogger/src/md2blogger.py \
             --files '${{ steps.filter.outputs.posts }}' \
             --github_url $REPO_URL \
             --blogger_client_id ${{ inputs.blogger_client_id }} \
