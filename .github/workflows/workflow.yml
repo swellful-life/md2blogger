@@ -24,6 +24,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print inputs values
+        run: |
+          echo "blogger_client_id: ${{ inputs.blogger_client_id }}"
+          echo "blogger_client_secret: ${{ inputs.blogger_client_secret }}"
+          echo "blogger_refresh_token: ${{ inputs.blogger_refresh_token }}"
+          echo "blogger_blog_id: ${{ inputs.blogger_blog_id }}"
+
       - name: Checkout md2blogger repository
         uses: actions/checkout@v3
         with:
