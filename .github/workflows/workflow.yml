@@ -90,7 +90,7 @@ jobs:
           echo "filtered_posts=$json" >> $GITHUB_OUTPUT
 
       - name: Upload changed Markdown files to Blogger
-        if: steps.filter.outputs.posts != '[]'
+        if: steps.filter_deleted.outputs.filtered_posts != '[]'
         run: |
           REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY
           echo "Repository URL: $REPO_URL"
