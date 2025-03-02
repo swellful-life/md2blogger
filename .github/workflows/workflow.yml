@@ -68,7 +68,7 @@ jobs:
       - name: Filter out deleted files
         id: filter_deleted
         run: |
-          # paths-filter에서 출력된 JSON 배열을 읽어옴
+          # paths-filter에서 출력된 JSON 배열을 읽어옴 (예시 값을 직접 설정)
           files_output="${{ steps.filter.outputs.posts_files }}"
           echo "Original files output: $files_output"
           
@@ -86,8 +86,10 @@ jobs:
           json=$(printf '%s\n' "${filtered_list[@]}" | jq -R . | jq -s .)
           echo "Filtered files: $json"
           
-          # GITHUB_OUTPUT 파일에 결과 저장 (GitHub Actions의 최신 출력 방식)
+          # GITHUB_OUTPUT 파일에 결과 저장
           echo "filtered_posts=$json" >> $GITHUB_OUTPUT
+        shell: /usr/bin/bash -e {0}
+
 
       - name: Upload changed Markdown files to Blogger
         if: steps.filter_deleted.outputs.filtered_posts != '[]'
