@@ -65,39 +65,13 @@ jobs:
               - 'posts/**/*.md'
           ignore-deletions: true
 
-      - name: Filter out deleted files
-        id: filter_deleted
-        run: |
-          # paths-filter에서 출력된 JSON 배열을 읽어옴 (예시 값을 직접 설정)
-          files_output=${{ steps.filter.outputs.posts_files }}
-          echo "Original files output: $files_output"
-          
-          # JSON 배열을 파싱하여 각 항목(파일 경로)을 확인
-          filtered_list=()
-          for file in $(echo "$files_output" | jq -r '.[]'); do
-            if [ -f "$file" ]; then
-              filtered_list+=("$file")
-            else
-              echo "Skipping deleted file: $file"
-            fi
-          done
-          
-          # 배열을 JSON 배열 문자열로 변환
-          json=$(printf '%s\n' "${filtered_list[@]}" | jq -R . | jq -s .)
-          echo "Filtered files: $json"
-          
-          # GITHUB_OUTPUT 파일에 결과 저장
-          echo "filtered_posts=$json" >> $GITHUB_OUTPUT
-        shell: /usr/bin/bash -e {0}
-
-
       - name: Upload changed Markdown files to Blogger
-        if: steps.filter_deleted.outputs.filtered_posts != '[]'
+        if: steps.filter.outputs.posts_files != '[]'
         run: |
           REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY
           echo "Repository URL: $REPO_URL"
           python3 md2blogger/src/md2blogger.py \
-            --files '${{ steps.filter_deleted.outputs.filtered_posts }}' \
+            --files '${{ steps.filter.outputs.posts_files }}' \
             --github_url $REPO_URL \
             --blogger_client_id ${{ secrets.blogger_client_id }} \
             --blogger_client_secret ${{ secrets.blogger_client_secret }} \
