@@ -69,7 +69,7 @@ jobs:
         id: filter_deleted
         run: |
           # paths-filter에서 출력된 JSON 배열을 읽어옴 (예시 값을 직접 설정)
-          files_output="${{ steps.filter.outputs.posts_files }}"
+          files_output=${{ steps.filter.outputs.posts_files }}
           echo "Original files output: $files_output"
           
           # JSON 배열을 파싱하여 각 항목(파일 경로)을 확인
